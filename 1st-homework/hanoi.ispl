@@ -1,0 +1,191 @@
+Agent Environment
+    Obsvars:
+        top_st : 0..5;
+        top_dr : 0..5;
+        top_mij : 0..5;
+        sub_disc1 : 0..5;
+        sub_disc2 : 0..5;
+        sub_disc3 : 0..5;
+        sub_disc4 : 0..5;
+        sub_disc5 : 0..5;
+        disc1 : {st, mij, dr};
+        disc2 : {st, mij, dr};
+        disc3 : {st, mij, dr};
+        disc4 : {st, mij, dr};
+        disc5 : {st, mij, dr};
+
+    end Obsvars
+    
+    Actions = {};
+    Protocol:
+    end Protocol
+   
+    Evolution:
+        -- disc1
+        -- dr/st
+        disc1 = dr and sub_disc1 = top_dr and top_dr = 1 and top_st = sub_disc1 if disc1 = st and top_st = 1 and top_dr < 1 and Disc1.Action = dr and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc1 = st and sub_disc1 = top_st and top_st = 1 and top_dr = sub_disc1 if disc1 = dr and top_dr = 1 and top_st < 1 and Disc1.Action = st and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+        -- dr/mij
+        disc1 = dr and sub_disc1 = top_dr and top_dr = 1 and top_mij = sub_disc1 if disc1 = mij and top_mij = 1 and top_dr < 1 and Disc1.Action = dr and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc1 = mij and sub_disc1 = top_mij and top_mij = 1 and top_dr = sub_disc1 if disc1 = dr and top_dr = 1 and top_mij < 1 and Disc1.Action = mij and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+        -- st/mij
+        disc1 = st and sub_disc1 = top_st and top_st = 1 and top_mij = sub_disc1 if disc1 = mij and top_mij = 1 and top_st < 1 and Disc1.Action = st and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc1 = mij and sub_disc1 = top_mij and top_mij = 1 and top_st = sub_disc1 if disc1 = st and top_st = 1 and top_mij < 1 and Disc1.Action = mij and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+
+        -- disc2
+        -- dr/st
+        disc2 = dr and sub_disc2 = top_dr and top_dr = 2 and top_st = sub_disc2 if disc2 = st and top_st = 2 and top_dr < 2 and Disc2.Action = dr and Disc1.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc2 = st and sub_disc2 = top_st  and top_st = 2 and top_dr = sub_disc2 if disc2 = dr and top_dr = 2 and top_st < 2 and Disc2.Action = st and Disc1.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+        -- dr/mij
+        disc2 = dr and sub_disc2 = top_dr and top_dr = 2 and top_mij = sub_disc2 if disc2 = mij and top_mij = 2 and top_dr < 2 and Disc2.Action = dr and Disc1.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc2 = mij and sub_disc2 = top_mij and top_mij = 2 and top_dr = sub_disc2 if disc2 = dr and top_dr = 2 and top_mij < 2 and Disc2.Action = mij and Disc1.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+        -- st/mij
+        disc2 = st and sub_disc2 = top_st and top_st = 2 and top_mij = sub_disc2 if disc2 = mij and top_mij = 2 and top_st < 2 and Disc2.Action = st and Disc1.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc2 = mij and sub_disc2 = top_mij and top_mij = 2 and top_st = sub_disc2 if disc2 = st and top_st = 2 and top_mij < 2 and Disc2.Action = mij and Disc1.Action = sta and Disc3.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+
+        -- disc3
+        -- dr/st
+        disc3 = dr and sub_disc3 = top_dr and top_dr = 3 and top_st = sub_disc3 if disc3 = st and top_st = 3 and top_dr < 3 and Disc3.Action = dr and Disc1.Action = sta and Disc2.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc3 = st and sub_disc3 = top_st and top_st = 3 and top_dr = sub_disc3 if disc3 = dr and top_dr = 3 and top_st < 3 and Disc3.Action = st and Disc1.Action = sta and Disc2.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+        -- dr/mij
+        disc3 = dr and sub_disc3 = top_dr and top_dr = 3 and top_mij = sub_disc3 if disc3 = mij and top_mij = 3 and top_dr < 3 and Disc3.Action = dr and Disc1.Action = sta and Disc2.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc3 = mij and sub_disc3 = top_mij and top_mij = 3 and top_dr = sub_disc3 if disc3 = dr and top_dr = 3 and top_mij < 3 and Disc3.Action = mij and Disc1.Action = sta and Disc2.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+        -- st/mij
+        disc3 = st and sub_disc3 = top_st and top_st = 3 and top_mij = sub_disc3 if disc3 = mij and top_mij = 3 and top_st < 3 and Disc3.Action = st and Disc1.Action = sta and Disc2.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+        disc3 = mij and sub_disc3 = top_mij and top_mij = 3 and top_st = sub_disc3 if disc3 = st and top_st = 3 and top_mij < 3 and Disc3.Action = mij and Disc1.Action = sta and Disc2.Action = sta and Disc4.Action = sta and Disc5.Action = sta;
+
+
+        -- disc4
+        -- dr/st
+        disc4 = dr and sub_disc4 = top_dr and top_dr = 4 and top_st = sub_disc4 if disc4 = st and top_st = 4 and top_dr < 4 and Disc4.Action = dr and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc5.Action = sta;
+        disc4 = st and sub_disc4 = top_st and top_st = 4 and top_dr = sub_disc4 if disc4 = dr and top_dr = 4 and top_st < 4 and Disc4.Action = st and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc5.Action = sta;
+
+        -- dr/mij
+        disc4 = dr and sub_disc4 = top_dr and top_dr = 4 and top_mij = sub_disc4 if disc4 = mij and top_mij = 4 and top_dr < 4 and Disc4.Action = dr and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc5.Action = sta;
+        disc4 = mij and sub_disc4 = top_mij and top_mij = 4 and top_dr = sub_disc4 if disc4 = dr and top_dr = 4 and top_mij < 4 and Disc4.Action = mij and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc5.Action = sta;
+
+        -- st/mij
+        disc4 = st and sub_disc4 = top_st and top_st = 4 and top_mij = sub_disc4 if disc4 = mij and top_mij = 4 and top_st < 4 and Disc4.Action = st and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc5.Action = sta;
+        disc4 = mij and sub_disc4 = top_mij and top_mij = 4 and top_st = sub_disc4 if disc4 = st and top_st = 4 and top_mij < 4 and Disc4.Action = mij and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc5.Action = sta;
+
+
+        -- disc5
+        -- dr/st
+        disc5 = dr and sub_disc5 = top_dr and top_dr = 5 and top_st = sub_disc5 if disc5 = st and top_st = 5 and top_dr < 5 and Disc5.Action = dr and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta;
+        disc5 = st and sub_disc5 = top_st and top_st = 5 and top_dr = sub_disc5 if disc5 = dr and top_dr = 5 and top_st < 5 and Disc5.Action = st and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta;
+
+        -- dr/mij
+        disc5 = dr and sub_disc5 = top_dr and top_dr = 5 and top_mij = sub_disc5 if disc5 = mij and top_mij = 5 and top_dr < 5 and Disc5.Action = dr and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta;
+        disc5 = mij and sub_disc5 = top_mij and top_mij = 5 and top_dr = sub_disc5 if disc5 = dr and top_dr = 5 and top_mij < 5 and Disc5.Action = mij and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta;
+
+        -- st/mij
+        disc5 = st and sub_disc5 = top_st and top_st = 5 and top_mij = sub_disc5 if disc5 = mij and top_mij = 5 and top_st < 5 and Disc5.Action = st and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta;
+        disc5 = mij and sub_disc5 = top_mij and top_mij = 5 and top_st = sub_disc5 if disc5 = st and top_st = 5 and top_mij < 5 and Disc5.Action = mij and Disc1.Action = sta and Disc2.Action = sta and Disc3.Action = sta and Disc4.Action = sta;
+    end Evolution
+end Agent
+
+Agent Disc1
+    Vars:
+        stare : {none};
+    end Vars
+
+    Actions = {sta, st, mij, dr};
+    Protocol:
+        Environment.disc1 = st : {mij, dr, sta};
+        Environment.disc1 = dr : {mij, st, sta};
+        Environment.disc1 = mij : {dr, st, sta};
+    end Protocol
+
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent Disc2
+    Vars:
+        stare : {none};
+    end Vars
+
+    Actions = {sta, st, mij, dr};
+    Protocol:
+        Environment.disc2 = st : {mij, dr, sta};
+        Environment.disc2 = dr : {mij, st, sta};
+        Environment.disc2 = mij : {dr, st, sta};
+    end Protocol
+
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent Disc3
+    Vars:
+        stare : {none};
+    end Vars
+
+    Actions = {sta, st, mij, dr};
+    Protocol:
+        Environment.disc3 = st : {mij, dr, sta};
+        Environment.disc3 = dr : {mij, st, sta};
+        Environment.disc3 = mij : {dr, st, sta};
+    end Protocol
+
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent Disc4
+    Vars:
+        stare : {none};
+    end Vars
+
+    Actions = {sta, st, mij, dr};
+    Protocol:
+        Environment.disc4 = st : {mij, dr, sta};
+        Environment.disc4 = dr : {mij, st, sta};
+        Environment.disc4 = mij : {dr, st, sta};
+    end Protocol
+
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent Disc5
+    Vars:
+        stare : {none};
+    end Vars
+
+    Actions = {sta, st, mij, dr};
+    Protocol:
+        Environment.disc5 = st : {mij, dr, sta};
+        Environment.disc5 = dr : {mij, st, sta};
+        Environment.disc5 = mij : {dr, st, sta};
+    end Protocol
+
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+
+Evaluation
+    rezolvat if Environment.disc1 = dr and Environment.disc2 = dr and Environment.disc3 = dr and Environment.disc4 = dr and Environment.disc5 = dr;
+end Evaluation
+
+InitStates
+    Environment.disc1 = st and Environment.disc2 = st and Environment.disc3 = st and Environment.disc4 = st and Environment.disc5 = st and Environment.top_dr = 0 and Environment.top_mij = 0 and Environment.top_st = 5 and Environment.sub_disc5 = 4 and Environment.sub_disc4 = 3 and Environment.sub_disc3 = 2 and Environment.sub_disc2 = 1 and Environment.sub_disc1 = 0;
+end InitStates
+
+Formulae
+    EF (rezolvat);
+end Formulae

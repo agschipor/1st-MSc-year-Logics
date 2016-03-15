@@ -1,0 +1,199 @@
+Agent Environment
+    Obsvars:
+        barca : {st, dr};
+        om1   : {st, dr};
+        om2   : {st, dr};
+        om3   : {st, dr};
+        maimuta_mare  : {st, dr};
+        maimuta_mica1 : {st, dr};
+        maimuta_mica2 : {st, dr};
+        nr_oameni_st : 0..3;
+        nr_oameni_dr : 0..3;
+        nr_maimute_st : 0..3;
+        nr_maimute_dr : 0..3;
+    end Obsvars
+    
+    --Actions = {muta_st, muta_dr};
+    Actions = {}
+    Protocol:
+        --barca = st : {muta_dr};
+        --barca = dr : {muta_st};
+    end Protocol
+   
+    Evolution:
+        -- barca = st if Action = muta_st;
+        -- barca = dr if Action = muta_dr;
+
+        -- simplu
+        om1 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and barca = st if Action = muta_st and om1 = dr and barca = dr and Om1.Action = st;
+
+        om1 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and barca = dr if Action = muta_dr and om1 = st and barca = st and Om1.Action = dr;
+
+        om2 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and barca = st if Action = muta_st and om2 = dr and barca = dr and Om2.Action = st;
+
+        om2 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and barca = dr if Action = muta_dr and om2 = st and barca = st and Om2.Action = dr;
+
+        om3 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and barca = st if Action = muta_st and om3 = dr and barca = dr and Om3.Action = st;
+
+        om3 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and barca = dr if Action = muta_dr and om3 = st and barca = st and Om3.Action = dr;
+
+        maimuta_mare = st and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and maimuta_mare = dr and barca = dr and MaimutaMare.Action = st;
+
+        maimuta_mare = dr and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and maimuta_mare = st and barca = st and MaimutaMare.Action = dr;
+
+        -- oameni
+        om1 = st and om2 = st and nr_oameni_st = nr_oameni_st + 2 and nr_oameni_dr = nr_oameni_dr - 2 and barca = st if Action = muta_st and om1 = dr and om2 = dr and barca = dr and Om1.Action = st and Om2.Action = st;
+
+        om1 = dr and om2 = dr and nr_oameni_st = nr_oameni_st - 2 and nr_oameni_dr = nr_oameni_dr + 2 and barca = dr if Action = muta_dr and om1 = st and om2 = st and barca = st and Om1.Action = dr and Om2.Action = dr;
+
+        om1 = st and om3 = st and nr_oameni_st = nr_oameni_st + 2 and nr_oameni_dr = nr_oameni_dr - 2 and barca = st if Action = muta_st and om1 = dr and om3 = dr and barca = dr and Om1.Action = st and Om3.Action = st;        
+
+        om1 = dr and om3 = dr and nr_oameni_st = nr_oameni_st - 2 and nr_oameni_dr = nr_oameni_dr + 2 and barca = dr if Action = muta_dr and om1 = st and om3 = st and barca = st and Om1.Action = dr and Om3.Action = dr;
+
+        om2 = st and om3 = st and nr_oameni_st = nr_oameni_st + 2 and nr_oameni_dr = nr_oameni_dr - 2 and barca = st if Action = muta_st and om2 = dr and om3 = dr and barca = dr and Om2.Action = st and Om3.Action = st;        
+
+        om2 = dr and om3 = dr and nr_oameni_st = nr_oameni_st - 2 and nr_oameni_dr = nr_oameni_dr + 2 and barca = dr if Action = muta_dr and om2 = st and om3 = st and barca = st and Om2.Action = dr and Om3.Action = dr;
+
+        -- oameni cu maimute
+        om1 = st and maimuta_mare = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om1 = dr and maimuta_mare = dr and barca = dr and Om1.Action = st and MaimutaMare.Action = st;
+
+        om1 = dr and maimuta_mare = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om1 = st and maimuta_mare = st and barca = st and Om1.Action = dr and MaimutaMare.Action = dr;        
+
+        om2 = st and maimuta_mare = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om2 = dr and maimuta_mare = dr and barca = dr and Om2.Action = st and MaimutaMare.Action = st;
+
+        om2 = dr and maimuta_mare = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om2 = st and maimuta_mare = st and barca = st and Om2.Action = dr and MaimutaMare.Action = dr;        
+
+        om3 = st and maimuta_mare = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om3 = dr and maimuta_mare = dr and barca = dr and Om3.Action = st and MaimutaMare.Action = st;
+
+        om3 = dr and maimuta_mare = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om3 = st and maimuta_mare = st and barca = st and Om3.Action = dr and MaimutaMare.Action = dr;
+
+        om1 = st and maimuta_mica1 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om1 = dr and maimuta_mica1 = dr and barca = dr and Om1.Action = st and MaimutaMica1.Action = st;
+
+        om1 = dr and maimuta_mica1 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om1 = st and maimuta_mica1 = st and barca = st and Om1.Action = dr and MaimutaMica1.Action = dr;        
+
+        om2 = st and maimuta_mica1 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om2 = dr and maimuta_mica1 = dr and barca = dr and Om2.Action = st and MaimutaMica1.Action = st;
+
+        om2 = dr and maimuta_mica1 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om2 = st and maimuta_mica1 = st and barca = st and Om2.Action = dr and MaimutaMica1.Action = dr;        
+
+        om3 = st and maimuta_mica1 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om3 = dr and maimuta_mica1 = dr and barca = dr and Om3.Action = st and MaimutaMica1.Action = st;
+
+        om3 = dr and maimuta_mica1 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om3 = st and maimuta_mica1 = st and barca = st and Om3.Action = dr and MaimutaMica1.Action = dr;
+        
+        om1 = st and maimuta_mica2 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om1 = dr and maimuta_mica2 = dr and barca = dr and Om1.Action = st and MaimutaMica2.Action = st;
+
+        om1 = dr and maimuta_mica2 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om1 = st and maimuta_mica2 = st and barca = st and Om1.Action = dr and MaimutaMica2.Action = dr;        
+
+        om2 = st and maimuta_mica2 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om2 = dr and maimuta_mica2 = dr and barca = dr and Om2.Action = st and MaimutaMica2.Action = st;
+
+        om2 = dr and maimuta_mica2 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om2 = st and maimuta_mica2 = st and barca = st and Om2.Action = dr and MaimutaMica2.Action = dr;        
+
+        om3 = st and maimuta_mica2 = st and nr_oameni_st = nr_oameni_st + 1 and nr_oameni_dr = nr_oameni_dr - 1 and nr_maimute_st = nr_maimute_st + 1 and nr_maimute_dr = nr_maimute_dr - 1 and barca = st if Action = muta_st and om3 = dr and maimuta_mica2 = dr and barca = dr and Om3.Action = st and MaimutaMica2.Action = st;
+
+        om3 = dr and maimuta_mica2 = dr and nr_oameni_st = nr_oameni_st - 1 and nr_oameni_dr = nr_oameni_dr + 1 and nr_maimute_st = nr_maimute_st - 1 and nr_maimute_dr = nr_maimute_dr + 1 and barca = dr if Action = muta_dr and om3 = st and maimuta_mica2 = st and barca = st and Om3.Action = dr and MaimutaMica2.Action = dr;
+
+        -- maimute
+        maimuta_mare = st and maimuta_mica1 = st and nr_maimute_st = nr_maimute_st + 2 and nr_maimute_dr = nr_maimute_dr - 2 and barca = st if Action = muta_st and maimuta_mare = dr and maimuta_mica1 = dr and barca = dr and MaimutaMare.Action = st and MaimutaMica1.Action = st;
+
+        maimuta_mare = dr and maimuta_mica1 = dr and nr_maimute_st = nr_maimute_st - 2 and nr_maimute_dr = nr_maimute_dr + 2 and barca = dr if Action = muta_dr and maimuta_mare = st and maimuta_mica1 = st and barca = st and MaimutaMare.Action = dr and MaimutaMica1.Action = dr;        
+
+        maimuta_mare = st and maimuta_mica2 = st and nr_maimute_st = nr_maimute_st + 2 and nr_maimute_dr = nr_maimute_dr - 2 and barca = st if Action = muta_st and maimuta_mare = dr and maimuta_mica2 = dr and barca = dr and MaimutaMare.Action = st and MaimutaMica2.Action = st;
+
+        maimuta_mare = dr and maimuta_mica2 = dr and nr_maimute_st = nr_maimute_st - 2 and nr_maimute_dr = nr_maimute_dr + 2 and barca = dr if Action = muta_dr and maimuta_mare = st and maimuta_mica2 = st and barca = st and MaimutaMare.Action = dr and MaimutaMica2.Action = dr;        
+    end Evolution
+end Agent
+
+Agent Om1
+    Vars:
+        stare : {viu, mort};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.om1 = st and stare = viu : {dr, sta};
+        Environment.om1 = dr and stare = viu : {st, sta};
+    end Protocol
+    Evolution:
+        stare = mort if (Environment.om1 = st and Environment.nr_oameni_st < Environment.nr_maimute_st) or (Environment.om1 = dr and Environment.nr_oameni_dr < Environment.nr_maimute_dr);
+    end Evolution
+end Agent
+
+Agent Om2
+    Vars:
+        stare : {viu, mort};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.om2 = st and stare = viu : {dr, sta};
+        Environment.om2 = dr and stare = viu : {st, sta};
+    end Protocol
+    Evolution:
+        stare = mort if (Environment.om2 = st and Environment.nr_oameni_st < Environment.nr_maimute_st) or (Environment.om2 = dr and Environment.nr_oameni_dr < Environment.nr_maimute_dr);
+    end Evolution
+end Agent
+
+Agent Om3
+    Vars:
+        stare : {viu, mort};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.om3 = st and stare = viu : {dr, sta};
+        Environment.om3 = dr and stare = viu : {st, sta};
+    end Protocol
+    Evolution:
+        stare = mort if (Environment.om3 = st and Environment.nr_oameni_st < Environment.nr_maimute_st) or (Environment.om3 = dr and Environment.nr_oameni_dr < Environment.nr_maimute_dr);
+    end Evolution
+end Agent
+
+Agent MaimutaMare
+    Vars:
+        stare : {none};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.maimuta_mare = st : {sta, dr};
+        Environment.maimuta_mare = dr : {sta, st};
+    end Protocol
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent MaimutaMica1
+    Vars:
+        stare : {none};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.maimuta_mica1 = st : {sta, dr};
+        Environment.maimuta_mica1 = dr : {sta, st};
+    end Protocol
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent MaimutaMica2
+    Vars:
+        stare : {none};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.maimuta_mica2 = st : {sta, dr};
+        Environment.maimuta_mica2 = dr : {sta, st};
+    end Protocol
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Evaluation
+    rezolvat if Environment.om1 = dr and Environment.om2 = dr and Environment.om3 = dr and Environment.maimuta_mica1 = dr and Environment.maimuta_mica2 = dr and Environment.maimuta_mare = dr and Environment.barca = dr;
+end Evaluation
+
+InitStates
+    Om1.stare = viu and Om2.stare = viu and Om3.stare = viu and Environment.om1 = st and Environment.om2 = st and Environment.om3 = st and Environment.maimuta_mare = st and Environment.maimuta_mica1 = st and Environment.maimuta_mica2 = st and Environment.barca = st and Environment.nr_oameni_st = 3 and Environment.nr_oameni_dr = 0 and Environment.nr_maimute_st = 3 and Environment.nr_maimute_dr = 0;
+end InitStates
+
+Formulae
+    EF (rezolvat);
+end Formulae

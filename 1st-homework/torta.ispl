@@ -1,0 +1,124 @@
+Agent Environment
+    Obsvars:
+        torta : {st, dr};
+        minute : 0..12;
+        tata  : {st, dr};
+        mama  : {st, dr};
+        fiul  : {st, dr};
+        fiica : {st, dr};
+    end Obsvars
+    
+    Actions = {muta_st, muta_dr};
+    Protocol:
+        torta = st : {muta_dr};
+        torta = dr : {muta_st};
+    end Protocol
+   
+    Evolution:
+        tata = st and torta = st and minute = minute + 1 if Action = muta_st and tata = dr and torta = dr and Tata.Action = st and minute < 12;
+        tata = dr and torta = dr and minute = minute + 1 if Action = muta_dr and tata = st and torta = st and Tata.Action = dr and minute < 12;
+        
+        mama = st and torta = st and minute = minute + 2 if Action = muta_st and mama = dr and torta = dr and Mama.Action = st and minute < 12;
+        mama = dr and torta = dr and minute = minute + 2 if Action = muta_dr and mama = st and torta = st and Mama.Action = dr and minute < 12;
+        
+        fiul = st and torta = st and minute = minute + 4 if Action = muta_st and fiul = dr and torta = dr and Fiul.Action = st and minute < 12;
+        fiul = dr and torta = dr and minute = minute + 4 if Action = muta_dr and fiul = st and torta = st and Fiul.Action = dr and minute < 12;
+        
+        fiica = st and torta = st and minute = minute + 5 if Action = muta_st and fiica = dr and torta = dr and Fiica.Action = st and minute < 12;
+        fiica = dr and torta = dr and minute = minute + 5 if Action = muta_dr and fiica = st and torta = st and Fiica.Action = dr and minute < 12;
+        
+        tata = st and fiul = st and torta = st and minute = minute + 4 if Action = muta_st and tata = dr and fiul = dr and Tata.Action = st and Fiul.Action = st and minute < 12;
+        tata = dr and fiul = dr and torta = dr and minute = minute + 4 if Action = muta_dr and tata = st and fiul = st and Tata.Action = dr and Fiul.Action = dr and minute < 12;
+        
+        tata = st and fiica = st and torta = st and minute = minute + 5 if Action = muta_st and tata = dr and fiica = dr and Tata.Action = st and Fiica.Action = st and minute < 12;
+        tata = dr and fiica = dr and torta = dr and minute = minute + 5 if Action = muta_dr and tata = st and fiica = st and Tata.Action = dr and Fiica.Action = dr and minute < 12;
+        
+        tata = st and mama = st and torta = st and minute = minute + 2 if Action = muta_st and tata = dr and mama = dr and Tata.Action = st and Mama.Action = st and minute < 12;
+        tata = dr and mama = dr and torta = dr and minute = minute + 2 if Action = muta_dr and tata = st and mama = st and Tata.Action = dr and Mama.Action = dr and minute < 12;
+        
+        mama = st and fiul = st and torta = st and minute = minute + 4 if Action = muta_st and mama = dr and fiul = dr and Mama.Action = st and Fiul.Action = st and minute < 12;
+        mama = dr and fiul = dr and torta = dr and minute = minute + 4 if Action = muta_dr and mama = st and fiul = st and Mama.Action = dr and Fiul.Action = dr and minute < 12;
+        
+        mama = st and fiica = st and torta = st and minute = minute + 5 if Action = muta_st and mama = dr and fiica = dr and Mama.Action = st and Fiica.Action = st and minute < 12;
+        mama = dr and fiica = dr and torta = dr and minute = minute + 5 if Action = muta_dr and mama = st and fiica = st and Mama.Action = dr and Fiica.Action = dr and minute < 12;
+        
+        fiul = st and fiica = st and torta = st and minute = minute + 5 if Action = muta_st and fiul = dr and fiica = dr and Fiul.Action = st and Fiica.Action = st and minute < 12;
+        fiul = dr and fiica = dr and torta = dr and minute = minute + 5 if Action = muta_dr and fiul = st and fiica = st and Fiul.Action = dr and Fiica.Action = dr and minute < 12;
+    end Evolution
+end Agent
+
+Agent Tata
+    Vars:
+        stare : {none};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.tata = st : {sta, dr};
+        Environment.tata = dr : {sta, st};
+    end Protocol
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent Mama
+    Vars:
+        stare : {none};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.mama = st : {sta, dr};
+        Environment.mama = dr : {sta, st};
+    end Protocol
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent Fiul
+    Vars:
+        stare : {none};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.fiul = st : {sta, dr};
+        Environment.fiul = dr : {sta, st};
+    end Protocol
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Agent Fiica
+    Vars:
+        stare : {none};
+    end Vars
+    Actions = {sta, st, dr};
+    Protocol:
+        Environment.fiica = st : {sta, dr};
+        Environment.fiica = dr : {sta, st};
+    end Protocol
+    Evolution:
+        stare = none if stare = none;
+    end Evolution
+end Agent
+
+Evaluation
+    un_pas if Environment.tata = dr or Environment.mama = dr or Environment.fiul = dr or Environment.fiica = dr;
+    rezolvat if Environment.tata = dr and Environment.mama = dr and Environment.fiul = dr and Environment.fiica = dr and Environment.torta = dr and Environment.minute <= 12;
+    parinti_fericiti if (Environment.tata = dr and Environment.mama = dr and Environment.torta = dr and Environment.fiul = st and Environment.fiica = st) or 
+                        (Environment.tata = st and Environment.mama = st and Environment.torta = st and Environment.fiul = dr and Environment.fiica = dr);
+    parinti_tristi if Environment.tata = dr and Environment.mama = dr and Environment.torta = dr and Environment.fiul = st and Environment.fiica = st and Environment.minute = 12;
+end Evaluation
+
+InitStates
+    Environment.tata = st and Environment.mama = st and Environment.fiul = st and Environment.fiica = st and Environment.minute = 0 and Environment.torta = st;
+end InitStates
+
+Formulae
+    AF (rezolvat);
+    EF (rezolvat);
+    EF (un_pas);
+    EF (parinti_fericiti);
+    EF (parinti_tristi);
+end Formulae
