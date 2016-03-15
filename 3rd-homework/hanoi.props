@@ -1,0 +1,10 @@
+P=? [ F<=7 "stable" ]
+
+R=? [ F "stable" ]
+
+P>=1 [ F "stable" ]
+
+E [ F "stable" ]
+
+P=?[F<7 "stable"]
+

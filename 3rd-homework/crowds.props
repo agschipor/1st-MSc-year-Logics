@@ -1,0 +1,6 @@
+R=?[F (delivered=true)]
+
+P>=1[F (delivered=true)]
+
+P=?[F<=3(delivered=true)]
+

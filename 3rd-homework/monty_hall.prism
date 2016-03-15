@@ -1,0 +1,49 @@
+dtmc
+
+//prezentatorul - deschide una din usile in spatele carora se afla o capra
+module monty_hall_presenter
+    //starea prezentatorului    
+    pr_state : [0..2];
+    //usa care ramane dupa ce prezentatorul deschide una din usi
+    sec_rem : [0..3];
+    //usa in spatele careia se afla masina
+    car : [1..3];
+
+    //sincronizare cu concurentul;     
+    [choose] (pr_state=0) -> 1/3: (car'=1) & (pr_state'=1) +
+		             1/3: (car'=2) & (pr_state'=1) +
+		             1/3: (car'=3) & (pr_state'=1);
+
+    //sincronizare cu concurentul; 
+    [open_goat_door] (pr_state=1 & car=first_choice)  -> 1/2: (pr_state'=1) & (sec_rem'=ceil(rem/2-1)) +
+                                                         1/2: (pr_state'=1) & (sec_rem'=floor(rem/2+1));
+    //floor(rem/2+1)!=first_choice, respectiv ceil(rem/2-1)!=first_choice din cauza ca acesta model checkerul presupunea ca
+    //acestea pot fi egale cu first_choice (intersectia intervalelor din care first_choice si rem pot lua valori nu e vida);
+    //aceste conditii pot fi totusi scoase, doar ca apar 2 warning-uri
+    [open_goat_door] (pr_state=1 & car=ceil(rem/2-1) & ceil(rem/2-1)!=first_choice) -> (pr_state'=2) & (sec_rem'=car);
+    [open_goat_door] (pr_state=1 & car=floor(rem/2+1) & floor(rem/2+1)!=first_choice) -> (pr_state'=2) & (sec_rem'=car);
+    [] (pr_state=2) -> (pr_state'=2);
+endmodule
+
+
+module monty_hall_player
+    //starea concurentului
+    state : [0..3];
+    //suma usilor care raman dupa ce concurentul face prima alegere; e.g. daca el alege usa 1, suma = 2 + 3 = 5, iar ceil(rem/2-1)=ceil(1.5)=2 si floor(rem/2+1)=floor(3.5)=3, asta fiind valabil pentru orice combinatie
+    rem : [2..5];
+    //prima alegere
+    first_choice : [0..3];
+    //a doua alegere
+    second_choice : [0..3];
+    
+    //alege prima usa
+    [choose] (state=0) -> 1/3: (state'=1) & (first_choice'=1) & (rem'=5) +
+                    1/3: (state'=1) & (first_choice'=2) & (rem'=4) +
+                    1/3: (state'=1) & (first_choice'=3) & (rem'=3);
+    //prezentatorul deschide una din usi
+    [open_goat_door] (state=1) -> (state'=2);
+    //isi schimba sau pastreaza opinia
+    [] (state=2) -> 1/2: (state'=3) & (second_choice'=first_choice) +
+                    1/2: (state'=3) & (second_choice'=sec_rem);
+    [] (state=3) -> (state'=3);
+endmodule

@@ -1,0 +1,27 @@
+dtmc
+
+//foarfeca > hartie
+//hartie > piatra
+//piatra > foarfeca
+module player1
+    //ce a tras jucatorul: 1-foarfeca, 2-hartie, 3-piatra
+    draw1 : [1..3];
+    //starea jucatorului: 1-alege, 2-verifica, 3-joc incheiat
+    state1 : [1..3];
+    //variabila care zice daca un jucator a castigat sau nu
+    won1 : bool init false;
+    
+    //generaza piatra, foarfeca sau hartie
+    [get] (state1=1) -> 1/3: (draw1'=1) & (state1'=2) + 
+            1/3: (draw1'=2) & (state1'=2) +
+            1/3: (draw1'=3) & (state1'=2);
+    //verifica cu celalalt jucator
+    [verify] (state1=2) & (draw1=draw2) -> (state1'=1);
+    //foarfeca (> hartie)  |  hartie (> piatra) | piatra (>foarfeca) => castig
+    [verify] (state1=2) & ((draw1=1 & draw2=2) | (draw1=2 & draw2=3) | (draw1=3 & draw2=1)) -> (state1'=3) & (won1'=true);
+    [verify] (state1=2) & ((draw1=2 & draw2=1) | (draw1=3 & draw2=2) | (draw1=1 & draw2=3)) -> (state1'=3);
+    //stare absorbanta
+    [end] (state1=3) -> (state1'=3);
+endmodule
+
+module player2=player1[state1=state2, draw1=draw2, draw2=draw1, won1=won2] endmodule

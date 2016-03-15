@@ -1,0 +1,4 @@
+P>=1[F(won1=true | won2=true)]
+
+P=?[F(won1=true & draw1=3 & draw2=2)]
+

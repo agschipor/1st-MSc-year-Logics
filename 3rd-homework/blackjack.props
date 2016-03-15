@@ -1,0 +1,14 @@
+P>=1 [ F (won1=true|won2=true) ]
+
+P=? [ F (won1=true) ]
+
+P=? [ F (won2=true) ]
+
+P=? [ F (won1=true&sum1=21) ]
+
+P=? [ F (won1=true&sum2>21) ]
+
+P=?[F(state1=4 & sum1=sum2)]
+
+P=?[F(state1=4 & state2=4 & sum1=21 & sum2=21)]
+

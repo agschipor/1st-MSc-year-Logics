@@ -1,0 +1,54 @@
+dtmc
+
+module player1
+    sum1 : [0..22] init 0;
+    card1 : [1..10];
+    won1 : bool init false;
+    state1 : [0..5]; 
+
+    [] (state1=0) ->    1/13: (card1'=1) & (state1'=1) +
+                   	1/13: (card1'=2) & (state1'=1) + 
+                   	1/13: (card1'=3) & (state1'=1) + 
+                   	1/13: (card1'=4) & (state1'=1) + 
+                   	1/13: (card1'=5) & (state1'=1) + 
+                   	1/13: (card1'=6) & (state1'=1) + 
+                   	1/13: (card1'=7) & (state1'=1) + 
+                   	1/13: (card1'=8) & (state1'=1) + 
+                   	1/13: (card1'=9) & (state1'=1) + 
+                   	4/13: (card1'=10)& (state1'=1);    
+    
+    //pentru suma limitata
+    [] (state1=1 & sum1+card1<=21) -> (sum1'=sum1+card1) & (state1'=2);
+    [] (state1=1 & sum1+card1>21) -> (sum1'=22) & (state1'=2);
+	
+    //daca suma actuala e mai mica decat 5, vreau numaidecat sa trag inca o carte
+    [] (state1=2 & sum1 < 5) -> (state1'=0);
+    //daca suma actuala e intre 5 si 10, trag o carte cu probabilitate 3/4
+    [] (state1=2 & sum1 >=5 & sum1 < 10) -> 3/4: (state1'=0) +
+                                            1/4: (state1'=3); 
+    //daca suma actuala e intre 10 si 15, trag o carte cu probabilitate 1/2
+    [] (state1=2 & sum1 >=10 & sum1 < 15) -> 1/2: (state1'=0) +
+                                             1/2: (state1'=3);
+    //daca suma actuala e intre 15 si 21, trag o carte cu probabilitate 1/4
+    [] (state1=2 & sum1 >= 15 & sum1 < 21) -> 1/4: (state1'=0) +
+                                              3/4: (state1'=3);
+    //daca suma actuala a depasit 21, merg la verificat
+    [] (state1=2 & sum1>=21) -> (state1'=3);
+    
+    //astept celalat player; sincronizare 
+    [go_to_verify] (state1=3 & state2=3) -> (state1'=4);
+	
+    //verificare sincrona
+    [verify] (state1=4 & sum1=sum2) -> (sum1'=0) & (state1'=0);
+    [verify] (state1=4 & sum1>sum2 & sum1<=21) -> (won1'=true) & (state1'=5);
+    [verify] (state1=4 & sum1>sum2 & sum1>21) -> (won1'=false) & (state1'=5);
+    [verify] (state1=4 & sum1<sum2 & sum2<=21) -> (won1'=false) & (state1'=5);
+    [verify] (state1=4 & sum1<sum2 & sum2>21 & sum1<=21) -> (won1'=true) & (state1'=5);
+//  [verify] (state1=4 & sum1<sum2 & sum1>21) -> (won1'=false) & (state1'=5); 
+
+    //sfarsit joc
+    [end] (state1=5 & won1=false) -> (state1'=5) & (won1'=false);
+    [end] (state1=5 & won1=true) -> (state1'=5) & (won1'=true);
+endmodule
+
+module player2=player1[sum1=sum2,card1=card2,state1=state2,won1=won2,sum2=sum1] endmodule

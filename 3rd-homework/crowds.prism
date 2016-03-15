@@ -1,0 +1,35 @@
+dtmc
+
+const double forwarding_prob = 0.8;
+
+module crowds
+	//inseamna ca protocolul incepe
+	start : bool init true;
+	//inseamna ca nodul curent alege daca trimite mesajul direct la destinatar sau altui nod din "crowd"
+	choose: bool init false;
+	//inseamna ca nodul curent trimite mesajul altui nod din "crowd" si alege cu probabilitate egala nodul
+	forward : bool init false;
+	//inseamna ca mesajul a fost trimis
+	delivered : bool init false;
+	//ultimul nod care a trimis mesajul
+	lastAgent : [0..4];
+	
+	//start protocol, sender-ul este nodul 0
+	[] (start=true) ->  (lastAgent'=0) & (forward'=true) & (start'=false);
+	//alege nod din crowd
+	[] (forward=true & start=false) -> 1/5: (lastAgent'=0) & (forward'=false) & (choose'=true) + 
+			     1/5: (lastAgent'=1) & (forward'=false) & (choose'=true) +
+			     1/5: (lastAgent'=2) & (forward'=false) & (choose'=true) +
+			     1/5: (lastAgent'=3) & (forward'=false) & (choose'=true) +
+			     1/5: (lastAgent'=4) & (forward'=false) & (choose'=true);
+	//alege daca sa trimita mesajul direct la destinatar sau unui nod din crowd
+	[] (choose=true & forward=false & start=false) ->  forwarding_prob: (forward'=true) & (choose'=false) +
+			                                  (1-forwarding_prob): (delivered'=true) & (choose'=false);
+	//mesajul a fost trimis cu succes
+	[] (delivered=true & start=false & forward=false & choose=false) -> (delivered'=true);
+endmodule
+
+//calculez numarul mediu de pasi necesari pentru a trimite un mesaj
+rewards "steps"
+	[] (start=false): 1;
+endrewards

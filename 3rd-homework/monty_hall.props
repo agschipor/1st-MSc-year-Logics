@@ -1,0 +1,12 @@
+P>=0.5 [ F (state=3&second_choice=car) ]
+
+P=? [ F (state=3&first_choice=car) ]
+
+P=? [ F (state=2&sec_rem=car) ]
+
+P=? [ F (state=3&second_choice!=first_choice) ]
+
+P=? [ F (state=3&second_choice!=first_choice&second_choice=car) ]
+
+P=? [ F (state=3&second_choice=first_choice&second_choice=car) ]
+
